@@ -1,8 +1,8 @@
-import React from 'react'
-import { View, TextInput,StyleSheet } from 'react-native'
+import React, {useState} from 'react'
+import { View, TextInput,StyleSheet, Text } from 'react-native'
 
 
-const CustomSearch = (props: any) => {
+const CustomInput = (props: any) => {
     const {
         value,
         placeholder,
@@ -10,22 +10,21 @@ const CustomSearch = (props: any) => {
     } = props
 
     return(
-        <View style={styles.navbarSection}>
+      <View style={styles.navbarSection}>
         <TextInput
           style={styles.inputDecoration}
           value={value}
-          onChangeText={onChangeText}
           placeholder={placeholder}
+          onChangeText={onChangeText}
         />
       </View>
     )
 }
 
-export default CustomSearch
+export default CustomInput
 
 const styles = StyleSheet.create({
   navbarSection:{
-    height: '15%',
   },
   inputDecoration: {
     height: 40,
@@ -34,6 +33,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 5,
     marginHorizontal: 15,
-    marginTop: 20
+    marginTop: 10
   },
 })
