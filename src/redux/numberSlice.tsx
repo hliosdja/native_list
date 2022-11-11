@@ -5,7 +5,15 @@ export const numberSlice = createSlice({
     initialState: {
         quantity: 0,
         displayedList: [],
-        isInputValid: false
+        masterList: [
+            {id: 0, item: 'first'},
+            {id: 1, item: 'second'},
+            {id: 2, item: 'third'},
+            {id: 3, item: 'fourth'},
+            {id: 4, item: 'fifth'},
+        ],
+        isInputValid: false,
+        indexToScroll: 0
     },
     reducers: {
         setQuantity: (state, action) => {
@@ -16,10 +24,16 @@ export const numberSlice = createSlice({
         },
         setInputValid: (state, action) => {
             state.isInputValid = action.payload
+        },
+        setIndexToScroll: (state, action) => {
+            state.indexToScroll = action.payload
+        },
+        setMasterList: (state, action) => {
+            state.masterList = action.payload
         }
     }
 })
 
-export const { setQuantity, setDisplayedList, setInputValid } = numberSlice.actions
+export const { setQuantity, setDisplayedList, setInputValid, setIndexToScroll, setMasterList } = numberSlice.actions
 
 export default numberSlice.reducer

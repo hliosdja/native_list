@@ -107,11 +107,11 @@ const HomeScreen = ({ navigation }) => {
         <FlatList
           data={displayedList}
           renderItem={
-            ({item}) =>
+            ({item, index}) =>
             <TouchableHighlight
               style={styles.buttonRow} 
               underlayColor='#f1f1'
-              onPress={()=> navigation.navigate(Screen.DESCRIPTION_SCREEN, {text: item})}
+              onPress={()=> navigation.navigate(Screen.DESCRIPTION_SCREEN, {text: item, list: displayedList, index: index})}
             >
               <Text style={styles.row}>{item}</Text>
             </TouchableHighlight>

@@ -17,10 +17,10 @@ const Entry = () => {
     return(
         <Provider store={store}>
             <NavigationContainer>
-            <Stack.Navigator initialRouteName={Screen.HOME_SCREEN}>
-                <Stack.Screen name={Screen.HOME_SCREEN} component={HomeScreen}/>
-                <Stack.Screen name={Screen.DESCRIPTION_SCREEN} component={DescriptionScreen} options={{ title:'Numbers Screen' }}/>
-            </Stack.Navigator>
+                <Stack.Navigator initialRouteName={Screen.HOME_SCREEN}>
+                    <Stack.Screen name={Screen.HOME_SCREEN} component={HomeScreen}/>
+                    <Stack.Screen name={Screen.DESCRIPTION_SCREEN} component={DescriptionScreen} options={{ title:'Numbers Screen' }}/>
+                </Stack.Navigator>
             </NavigationContainer>
         </Provider>
     )
