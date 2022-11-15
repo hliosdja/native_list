@@ -1,56 +1,48 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableHighlight, FlatList, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TouchableHighlight, FlatList, Dimensions, Image, ActivityIndicator } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import SyncedFlatList from '../components/synced_flatlist'
 
-import { syncFlatListContext, syncFlatListstate } from '../context/syncFlatListContext'
+const DescriptionScreen = ({ navigation, route }) => {
+    const { text, image } = route.params
+    const [facts, setFacts] = useState([])
+    const [isFactsLoading, setIsFactsLoading] = useState(true)
 
-const DescriptionScreen = ({ navigation, route }, props: any) => {
-    const { text, list, index } = route.params
+    useEffect(() => {
+        console.log('name: ', text)
+        const url = `https://anime-facts-rest-api.herokuapp.com/api/v1/${text}`
+        fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+            setFacts(result.data)
+        })
+        .catch((e) => {console.log('err: ', e)})
+        .finally(() => setIsFactsLoading(false))
+      }, [])
 
-    const { indexToScroll, masterList } = useSelector((state: any) => state.num)
-    const dispatch = useDispatch()
-    const [listIndex, setListIndex] = useState(0)
+    useEffect(() => {
+        navigation.setOptions({title: text})
+    }, [])
 
-    const w = Dimensions.get('window').width
-    const h = Dimensions.get('window').height
-
-    const getItemLayout = (data: any, index) => {
-        return {length: w, offset: w * index, index}
+    const renderFacts = ({item}) => {
+        return(
+            <View>
+                <Text style={styles.rowItem}>{item.fact}</Text>
+            </View>
+        )
     }
 
     return(
-        <syncFlatListContext.Provider value={syncFlatListstate}>
-            <View style={styles.tab}>
-                <SyncedFlatList
-                    id={0}
-                    data={list}
-                    horizontal={true}
-                    initialScrollIndex={index + 1}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({item}) => 
-                        <Text style={styles.tabItem}>{item}</Text>
-                    }
+        <View style={styles.container}>
+            <Image style={styles.rowImage} source={{uri: image}}/>
+            <Text style={styles.textDecoration}>{text}</Text>
+            {isFactsLoading 
+                ? <ActivityIndicator size='large'/> 
+                : <FlatList 
+                    data={facts}
+                    renderItem={renderFacts}
                 />
-            </View>
-            <View style={styles.container}>
-                {/* <Text style={styles.textDecoration}>{text}</Text>
-                <TouchableHighlight
-                    style={styles.buttonDecoration}
-                    underlayColor='#f1f2'
-                    onPress={()=>navigation.goBack()}
-                >
-                    <Text>Go back</Text>
-                </TouchableHighlight> */}
-                <SyncedFlatList
-                    id={1}
-                    data={list}
-                    showsVerticalScrollIndicator={false}
-                    initialScrollIndex={index + 1}
-                    renderItem={({item}) => <Text style={styles.rowItem}>{item}</Text>}
-                />
-            </View>
-        </syncFlatListContext.Provider>
+            }
+        </View>
     )
 }
 
@@ -60,7 +52,8 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 130,
     },
     textDecoration: {
         fontSize: 30,
@@ -75,22 +68,17 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderRadius: 5
     },
-    tab: {
+    rowItem: {
+        fontSize: 20,
         padding: 10,
-        marginBottom: 12
-    },
-    tabItem: {
-        borderColor: "#21130d",
+        margin: 10,
         borderWidth: 1,
-        borderRadius: 18,
-        width: 50,
-        textAlign: 'center',
-        marginHorizontal: 5,
-        fontSize: 16
+        borderColor: 'black',
+        borderRadius: 5,
+        textAlign: 'justify'
     },
-     rowItem: {
-        fontSize: 30,
-        padding: 20,
-        textAlign: 'center'
-     }
+    rowImage: {
+        width: 100,
+        height: 200
+    }
 })

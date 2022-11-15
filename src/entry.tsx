@@ -17,9 +17,9 @@ const Entry = () => {
     return(
         <Provider store={store}>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName={Screen.HOME_SCREEN}>
-                    <Stack.Screen name={Screen.HOME_SCREEN} component={HomeScreen}/>
-                    <Stack.Screen name={Screen.DESCRIPTION_SCREEN} component={DescriptionScreen} options={{ title:'Numbers Screen' }}/>
+                <Stack.Navigator initialRouteName={Screen.HOME_SCREEN} screenOptions={{headerTransparent: true}}>
+                    <Stack.Screen name={Screen.HOME_SCREEN} component={HomeScreen} options={{title: 'Anime List'}}/>
+                    <Stack.Screen name={Screen.DESCRIPTION_SCREEN} component={DescriptionScreen} options={{ title:'Facts' }}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>
